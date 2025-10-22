@@ -1,0 +1,57 @@
+#include <Arduino.h>
+#include <WiFi.h>
+
+#define WIFI_SSID "ADN-IOT"
+#define WIFI_PASSWORD "WBNuyawB2a"
+#define ADNGROUP "ADN-Group31"
+
+//Prototypes
+void slowBlink();
+void constantBlink();
+void fastBlink();
+
+unsigned long startTime;
+
+void setup() {
+    Serial.begin(115200);
+    pinMode(LED_BUILTIN, OUTPUT);
+
+    WiFi.mode(WIFI_STA);
+    WiFi.setHostname(ADNGROUP);
+    WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+
+    startTime = millis();
+    Serial.println("\nConnecting to WiFi");
+}
+
+void loop() {
+    unsigned long currentMillis = millis();
+    if (WiFi.status() != WL_CONNECTED) {
+        if (currentMillis - startTime >= 1000) {
+            Serial.println("Failed to connect to WiFi");
+            startTime = currentMillis; // reset timer
+        }
+        fastBlink();
+    } else {
+        Serial.println("Connected to WiFi");
+        constantBlink();
+    }
+}
+
+void slowBlink () {
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay (1000);
+  digitalWrite(LED_BUILTIN, LOW);
+  delay (1000);
+}
+
+void constantBlink () {
+  digitalWrite(LED_BUILTIN, HIGH);
+}   
+
+void fastBlink () {
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay (200);
+  digitalWrite(LED_BUILTIN, LOW);
+  delay (200);
+}
