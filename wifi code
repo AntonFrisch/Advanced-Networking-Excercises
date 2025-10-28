@@ -19,24 +19,23 @@ void setup() {
     WiFi.mode(WIFI_STA);
     WiFi.setHostname(ADNGROUP);
     WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-
     startTime = millis();
     Serial.println("\nConnecting to WiFi");
+    while (WiFi.status() != WL_CONNECTED && (millis() - startTime) < 10000) {
+      slowBlink();
+    }
+    if (WiFi.status() == WL_CONNECTED) {
+      Serial.println("\nConnected to WiFi");
+      Serial.print("IP Address: ");
+      Serial.println(WiFi.localIP());
+      constantBlink();
+    } else {
+      Serial.println("\nFailed to connect to WiFi");
+      fastBlink();
+}
 }
 
-void loop() {
-    unsigned long currentMillis = millis();
-    if (WiFi.status() != WL_CONNECTED) {
-        if (currentMillis - startTime >= 1000) {
-            Serial.println("Failed to connect to WiFi");
-            startTime = currentMillis; // reset timer
-        }
-        fastBlink();
-    } else {
-        Serial.println("Connected to WiFi");
-        constantBlink();
-    }
-}
+void loop() {}
 
 void slowBlink () {
   digitalWrite(LED_BUILTIN, HIGH);
@@ -46,12 +45,16 @@ void slowBlink () {
 }
 
 void constantBlink () {
+  while (true) {
   digitalWrite(LED_BUILTIN, HIGH);
+  }
 }   
 
 void fastBlink () {
+  while (true) {
   digitalWrite(LED_BUILTIN, HIGH);
   delay (200);
   digitalWrite(LED_BUILTIN, LOW);
   delay (200);
+  }
 }
