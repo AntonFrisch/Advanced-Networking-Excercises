@@ -11,7 +11,7 @@
 #define WIFI_PASSWORD "WBNuyawB2a"
 #define ADNGROUP "ADN-Group31"
 #define BULP_IP "192.168.0.55"
-#define MQTT_HOST IPAddress(192, 168, 0, 254)
+#define MQTT_HOST IPAddress(192, 168, 0, 1)
 #define MQTT_PORT 1883
 #define PUSHBUTTON 17
 
@@ -23,7 +23,7 @@ unsigned long startTime;
 
 int light_status = 0; // 0 = off, 1 = on
 
-static const char* CMD_TOPIC  = "cmnd/sonoff_01-5615/POWER"; // Befehl ggf. POWER ändern
+static const char* CMD_TOPIC  = "cmnd/sonoff_04/POWER"; // Befehl ggf. POWER ändern
 
 static const char* STAT_TOPIC = "stat/sonoff_01-5615/#";     // Rückmeldungen
 
@@ -43,7 +43,6 @@ void setup() {
   connectWIFI();
   delay(1000);
   mqttSetup();
-  mqttClient.subscribe(STAT_TOPIC, 1);
 }
 
 void loop() {
