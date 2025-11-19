@@ -2,8 +2,8 @@
 #include <Arduino.h>
 #include <WiFi.h>
 #include <HTTPClient.h>
-#include<AsyncTCP.h>
-#include<AsyncMqttClient.h>
+#include <AsyncTCP.h>
+#include <AsyncMqttClient.h>
 #include <Adafruit_BME280.h>
 
 //definitions
@@ -46,7 +46,7 @@ void setup() {
 }
 
 void loop() {
-    static unsigned long lastPublish = 0;
+  static unsigned long lastPublish = 0;
   const unsigned long publishInterval = 5000;
 
   unsigned long now = millis();
@@ -56,9 +56,9 @@ void loop() {
     Serial.print("Temp: ");
     Serial.print(temp);
     Serial.println(" °C");
-    char payload[sizeof(float)];
-    memcpy(payload, &temp, sizeof(float));
-    mqttClient.publish("adn/group31/temp",, 1, true, payload, sizeof(payload));
+    char payloadBuf[sizeof(float)];
+    memcpy(payloadBuf, &temp, sizeof(float));
+    mqttClient.publish("adn/group31/temp", 1, true, payloadBuf, sizeof(payloadBuf));
   }
 }
 
