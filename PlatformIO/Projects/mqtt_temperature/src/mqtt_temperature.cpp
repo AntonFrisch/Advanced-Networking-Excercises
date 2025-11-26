@@ -57,6 +57,10 @@ void loop() {
     Serial.print("Temp: ");
     Serial.print(temp);
     Serial.println(" °C");
+    Serial.print("Humidity: ");
+    Serial.println(hum);
+    Serial.print("Pressure: ");
+    Serial.println(pres);
     char payload[3 * sizeof(float)];
     memcpy(payload,                     &temp, sizeof(float));
     memcpy(payload + sizeof(float),     &hum,  sizeof(float));
