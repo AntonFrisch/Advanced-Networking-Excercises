@@ -1,0 +1,163 @@
+#######################################
+# Syntax Coloring Map For WiMOD
+####################################### 
+# Class
+#######################################
+
+WiMODLoRaWAN	KEYWORD1
+WiMODLRBASE	KEYWORD1
+WiMODLRBASE_PLUS	KEYWORD1
+WiMODGlobalLink24    KEYWORD1
+
+#######################################
+# Methods and Functions 
+#######################################	
+
+begin	KEYWORD2
+end	KEYWORD2
+
+
+Ping	KEYWORD2
+Reset	KEYWORD2
+GetDeviceInfo	KEYWORD2
+GetFirmwareInfo	KEYWORD2
+GetSystemStatus	KEYWORD2
+GetRtc	KEYWORD2
+SetRtc	KEYWORD2
+GetRadioConfig	KEYWORD2
+SetRadioConfig	KEYWORD2
+ResetRadioConfig	KEYWORD2
+GetOperationMode	KEYWORD2
+SetOperationMode	KEYWORD2
+SetAesKey	KEYWORD2
+GetAesKey	KEYWORD2
+RegisterPowerUpIndicationClient	KEYWORD2
+SendUData	KEYWORD2
+SendCData	KEYWORD2
+SetAckData	KEYWORD2
+convert	KEYWORD2
+RegisterUDataRxClient	KEYWORD2
+RegisterUDataTxClient	KEYWORD2
+RegisterRawDataRxClient	KEYWORD2
+RegisterCDataRxClient	KEYWORD2
+RegisterCDataTxClient	KEYWORD2
+RegisterAckRxClient	KEYWORD2
+RegisterAckRxTimeoutClient	KEYWORD2
+RegisterAckTxCallback	KEYWORD2
+GetLastHciResult	KEYWORD2
+GetLastResponseStatus	KEYWORD2
+
+ActivateDevice	KEYWORD2
+SetJoinParameter	KEYWORD2
+JoinNetwork	KEYWORD2
+
+RegisterJoinTxIndicationClient	KEYWORD2
+RegisterNoDataIndicationClient	KEYWORD2
+RegisterTxCDataIndicationClient	KEYWORD2
+RegisterTxUDataIndicationClient	KEYWORD2
+RegisterRxUDataIndicationClient	KEYWORD2
+RegisterRxCDataIndicationClient	KEYWORD2
+RegisterRxMacCmdIndicationClient	KEYWORD2
+RegisterJoinedNwkIndicationClient	KEYWORD2
+RegisterRxAckIndicationClient	KEYWORD2
+SendUData	KEYWORD2
+SendCData	KEYWORD2
+SetRadioStackConfig	KEYWORD2
+GetRadioStackConfig	KEYWORD2
+DeactivateDevice	KEYWORD2
+FactoryReset	KEYWORD2
+SetDeviceEUI	KEYWORD2
+GetDeviceEUI	KEYWORD2
+GetNwkStatus	KEYWORD2
+SendMacCmd	KEYWORD2
+SetCustomConfig	KEYWORD2
+GetCustomConfig	KEYWORD2
+GetTxPowerLimitConfig	KEYWORD2
+SetTxPowerLimitConfig	KEYWORD2
+GetLinkAdrReqConfig	KEYWORD2
+SetLinkAdrReqConfig	KEYWORD2
+
+
+
+
+
+#######################################
+# Constants
+#######################################
+ 
+WIMOD_LORAWAN_SERIAL_BAUDRATE	LITERAL1
+WIMOD_LR_BASE_SERIAL_BAUDRATE	LITERAL1
+WIMOD_LR_BASE_PLUS_SERIAL_BAUDRATE   LITERAL1
+
+# LR-Base related
+####################
+TWiMDLRResultCodes	LITERAL1
+TWiMODLR_DevMgmt_DevInfo	LITERAL1
+TWiMODLR_DevMgmt_FwInfo	LITERAL1
+TWiMODLR_DevMgmt_SystemStatus	LITERAL1
+TWiMODLR_DevMgmt_RadioConfig	LITERAL1
+TWiMOD_OperationMode	LITERAL1
+TWiMODLR_DevMgmt_RtcAlarm	LITERAL1
+TWiMODLR_RadioLink_Msg	LITERAL1
+TWiMODLR_HCIMessage	LITERAL1
+TRadioCfg_RadioMode	LITERAL1
+TRadioCfg_Modulation	LITERAL1
+TRadioCfg_LoRaBandwidth	LITERAL1
+TRadioCfg_LoRaSpreadingFactor	LITERAL1
+TRadioCfg_ErrorCoding	LITERAL1
+TRadioCfg_PowerLevel	LITERAL1
+TRadioCfg_RxControl	LITERAL1
+TRadioCfg_FskDatarate	LITERAL1
+TRadioCfg_PowerSavingMode	LITERAL1
+
+# LoRaWAN related
+####################
+TWiMODLORAWAN_ActivateDeviceData	LITERAL1
+TWiMODLORAWAN_JoinParams	LITERAL1
+TWiMODLORAWAN_RX_Data	LITERAL1
+TWiMODLORAWAN_TxIndData	LITERAL1
+TWiMODLORAWAN_RX_MacCmdData	LITERAL1
+TWiMODLORAWAN_RX_JoinedNwkData	LITERAL1
+TWiMODLORAWAN_RX_ACK_Data	LITERAL1
+TWiMODLORAWAN_NoData_Data	LITERAL1
+TWiMODLORAWAN_TX_Data	LITERAL1
+TWiMODLORAWAN_RadioStackConfig	LITERAL1
+TWiMODLORAWAN_NwkStatus_Data	LITERAL1
+TWiMODLORAWAN_SupportedBands	LITERAL1
+TWiMODLORAWAN_LinkAdrReqConfig	LITERAL1
+TWiMODLORAWAN_TxPwrLimitConfig	LITERAL1
+TLoRaWAN_FreqBand	LITERAL1
+
+# LR BASE PLUS related
+####################
+TRadioCfg_ModulationPlus	LITERAL1
+TRadioCfg_LoRaBandwidthPlus	LITERAL1
+TRadioCfg_FLRCBandwidthPlus	LITERAL1
+TRadioCfg_FSKBandwidthPlus	LITERAL1
+TRadioCfg_LoRaSpreadingFactorPlus	LITERAL1
+TRadioCfg_LoRaErrorCodingPlus	LITERAL1
+TRadioCfg_FLRCErrorCodingPlus	LITERAL1
+TRadioCfg_PowerLevelPlus	LITERAL1
+TRadioCfg_TxControlPlus	LITERAL1
+TRadioCfg_RxControlPlus	LITERAL1
+TRadioCfg_PowerSavingModePlus	LITERAL1
+TWiMODLR_DevMgmt_RadioConfigPlus	LITERAL1
+
+
+# GlobalLink24 related
+####################
+TWiMODGlobalLink24_ActivateDeviceData    LITERAL1
+TWiMODGlobalLink24_JoinParams    LITERAL1
+TWiMODGlobalLink24_RX_Data   LITERAL1
+TWiMODGlobalLink24_TxIndData LITERAL1
+TWiMODGlobalLink24_RX_MacCmdData LITERAL1
+TWiMODGlobalLink24_RX_JoinedNwkData  LITERAL1
+TWiMODGlobalLink24_RX_ACK_Data   LITERAL1
+TWiMODGlobalLink24_NoData_Data   LITERAL1
+TWiMODGlobalLink24_TX_Data   LITERAL1
+TWiMODGlobalLink24_RadioStackConfig  LITERAL1
+TWiMODGlobalLink24_NwkStatus_Data    LITERAL1
+TWiMODGlobalLink24_SupportedBands    LITERAL1
+TWiMODGlobalLink24_LinkAdrReqConfig  LITERAL1
+TWiMODGlobalLink24_TxPwrLimitConfig  LITERAL1
+

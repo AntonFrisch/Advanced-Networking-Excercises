@@ -1,0 +1,4 @@
+<map id="WiMODGlobalLink24::GetLastResponseStatus" name="WiMODGlobalLink24::GetLastResponseStatus">
+<area shape="rect" id="node2" href="$class_wi_m_o_d_lo_ra_w_a_n.html#a253f9f10d519257789ad24342075847a" title="Gets the last response code of the WiMOD of the last executed command. " alt="" coords="219,5,464,47"/>
+<area shape="rect" id="node3" href="$class_t_wi_m_o_d_l_r_h_c_i.html#aaaf7afaca1ddfed5d53b1dcf09941be6" title="Handle the receiver path; process all incomming bytes from the WiMOD. " alt="" coords="254,71,429,98"/>
+</map>

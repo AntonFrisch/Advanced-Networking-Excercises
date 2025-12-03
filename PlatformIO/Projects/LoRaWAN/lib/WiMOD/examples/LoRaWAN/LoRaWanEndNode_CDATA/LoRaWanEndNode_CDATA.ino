@@ -1,0 +1,320 @@
+/*
+ * This is a simple example file to show how to use the WiMOD Arduino
+ * library to communicate with a WiMOD Module by IMST GmbH
+ *
+ * http://www.wireless-solutions.de
+ *
+ */
+
+/*
+ * Example:
+ *
+ * This example demonstrates how to send confirmed data to a LoRaWAN server
+ * via a WiMOD module.
+ * Before transmitting the first message an ABP procedure is being done to
+ * register this device at the server.
+ *
+ * Setup requirements:
+ * -------------------
+ * - 1 WiMOD module running wiMOD_LoRaWAN_EndNode_Modemfirmware
+ *
+ * Usage:
+ * -------
+ * - Change the keys according to your LoRaWAN server before starting
+ * - Start the program and watch the serial monitor @ 115200 baud
+ */
+
+
+// make sure to use only the WiMODLoRaWAN.h
+// the WiMODLR_BASE.h must not be used for LoRaWAN firmware.
+#include <WiMODLoRaWAN.h>
+#if defined(ARDUINO_ARCH_AVR)
+#include <avr/pgmspace.h>
+#endif
+
+
+//-----------------------------------------------------------------------------
+// platform defines
+//-----------------------------------------------------------------------------
+/*
+ * Note: This sketch is for Arduino devices with two separate serial interfaces
+ * (e.g. DUE). One interface is connected to a PC and one is used for WiMOD.
+ *
+ * For single serial interface boards (e.g. UNO) it is recommended to disbale
+ * the PC / Debug messages
+ */
+
+#define WIMOD_IF    Serial3     // for WiMODino use: SerialWiMOD
+#define PC_IF		Serial      // for WiMODino use: SerialUSB
+
+//-----------------------------------------------------------------------------
+// constant values
+//-----------------------------------------------------------------------------
+
+/*
+ * ABP Parameters
+ */
+
+const uint32_t  DEV_ADR = 0x22;
+
+// network session key (128bit)
+const unsigned char NWKSKEY[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
+                         0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0f, 0x10 };
+
+// application session key (128bit)
+const unsigned char APPSKEY[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
+                         0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0f, 0x10 };
+
+
+
+
+//-----------------------------------------------------------------------------
+// user defined types
+//-----------------------------------------------------------------------------
+
+typedef enum TModemState
+{
+    ModemState_Disconnected = 0,
+    ModemState_ConnectRequestSent,
+    ModemState_Connected,
+    ModemState_FailedToConnect,
+} TModemState;
+
+
+typedef struct TRuntimeInfo
+{
+    TModemState ModemState;
+} TRuntimeInfo;
+
+
+//-----------------------------------------------------------------------------
+// section RAM
+//-----------------------------------------------------------------------------
+
+/*
+ * Create in instance of the interface to the WiMOD-LR-Base firmware
+ */
+WiMODLoRaWAN wimod(WIMOD_IF);  // use the Arduino Serial3 as serial interface
+
+TRuntimeInfo RIB = {  };
+
+static uint32_t loopCnt = 0;
+static TWiMODLORAWAN_TX_Data txData;
+
+
+
+//-----------------------------------------------------------------------------
+// section code
+//-----------------------------------------------------------------------------
+
+/*****************************************************************************
+ * Function for printing out some debug infos via serial interface
+ ****************************************************************************/
+void debugMsg(String msg)
+{
+    PC_IF.print(msg);  // use default Arduino serial interface
+}
+
+void debugMsg(int a)
+{
+	PC_IF.print(a, DEC);
+}
+
+void debugMsgChar(char c)
+{
+	PC_IF.print(c);
+}
+
+void debugMsgHex(int a)
+{
+    if (a < 0x10) {
+        PC_IF.print(F("0"));
+    }
+    PC_IF.print(a, HEX);
+}
+
+/*****************************************************************************
+ * print out a welcome message
+ ****************************************************************************/
+void printStartMsg()
+{
+    debugMsg(F("==================================================\n"));
+    debugMsg(F("This is FileName: "));
+    debugMsg(F(__FILE__));
+    debugMsg(F("\r\n"));
+    debugMsg(F("Starting...\n"));
+    debugMsg(F("This simple demo will try to "));
+    debugMsg(F("do the ABP procedure and "));
+    debugMsg(F("send a confirmed message each 30 sec.\n"));
+    debugMsg(F("==================================================\n"));
+}
+
+/*****************************************************************************
+ * rx data callback
+ ****************************************************************************/
+void onRxData(TWiMODLR_HCIMessage& rxMsg) {
+    TWiMODLORAWAN_RX_Data radioRxMsg;
+    int i;
+
+    debugMsg("Rx-Data Indication received.\n");
+
+    // convert/copy the raw message to RX radio buffer
+    if (wimod.convert(rxMsg, &radioRxMsg)) {
+
+  	if (radioRxMsg.StatusFormat & LORAWAN_FORMAT_ACK_RECEIVED) {
+  		// yes, this is an ack
+  		debugMsg(F("Ack-Packet received."));
+  	}
+        // print out the received message as hex string
+        if (radioRxMsg.Length > 0) {
+            // print out the length
+            debugMsg(F("Rx-Message: ["));
+            debugMsg(radioRxMsg.Length);
+            debugMsg(F("]: "));
+
+            // print out the payload
+            for (i = 0; i < radioRxMsg.Length; i++) {
+                debugMsgHex(radioRxMsg.Payload[i]);
+                debugMsg(F(" "));
+            }
+            debugMsg(F("\n"));
+        } else {
+            // no payload included
+//            debugMsg(F("Rx-Message with no Payload received; Status: "));
+//	    debugMsg((int) radioRxMsg.StatusFormat);
+          debugMsg(F("\n"));
+        }
+    }
+}
+
+/*****************************************************************************
+ * rx data callback
+ ****************************************************************************/
+void onRxAck(TWiMODLR_HCIMessage& rxMsg) {
+    TWiMODLORAWAN_RX_ACK_Data ackData;
+
+    wimod.convert(rxMsg, &ackData);
+
+    debugMsg(F("Received an ACK with status: "));
+    debugMsg((int) ackData.StatusFormat);
+    debugMsg(F("\n"));
+
+}
+
+
+/*****************************************************************************
+ * no data indication callback
+ ****************************************************************************/
+void onNoData(void) {
+    debugMsg(F("A No-Data Indication has been received "));
+    debugMsg(F("--> (timeout for current (re)transmission)\n"));
+}
+
+
+/*****************************************************************************
+ * Arduino setup function
+ ****************************************************************************/
+void setup()
+{
+    // wait for the PC interface to be ready (max 10 sec); usefull for USB
+    while (!PC_IF && millis() < 10000 ){}
+
+    // init / setup the serial interface connected to WiMOD
+    WIMOD_IF.begin(WIMOD_LORAWAN_SERIAL_BAUDRATE);
+    // init the communication stack
+    wimod.begin();
+
+    // debug interface
+    PC_IF.begin(115200);
+
+    printStartMsg();
+
+    // do a software reset of the WiMOD
+    delay(100);
+    wimod.Reset();
+    delay(100);
+    // deactivate device in order to get a clean start for this demo
+    wimod.DeactivateDevice();
+
+    // do a simple ping to check the local serial connection
+    debugMsg(F("Ping WiMOD: "));
+    if (wimod.Ping() != true) {
+        debugMsg(F("FAILED\n"));
+    } else {
+        debugMsg(F("OK\n"));
+
+		// try to register the device at network server via ABP procedure
+		debugMsg(F("Starting join ABP procedure...\n"));
+		TWiMODLORAWAN_ActivateDeviceData activationData;
+
+		//setup ABP data
+		activationData.DeviceAddress = DEV_ADR;
+		memcpy(activationData.NwkSKey, NWKSKEY, 16);
+		memcpy(activationData.AppSKey, APPSKEY, 16);
+
+
+		// activate device
+		if (wimod.ActivateDevice(activationData)) {
+			RIB.ModemState = ModemState_ConnectRequestSent;
+			debugMsg(F("ABP procedure done\n"));
+			debugMsg(F("(An 'alive' message has been sent to server)\n"));
+			RIB.ModemState = ModemState_Connected;
+		} else {
+		  debugMsg("Error executing ABP join request: ");
+		  debugMsg((int) wimod.GetLastResponseStatus());
+		  RIB.ModemState = ModemState_FailedToConnect;
+		}
+
+		// register a client callbacks
+		wimod.RegisterRxCDataIndicationClient(onRxData);
+		wimod.RegisterRxUDataIndicationClient(onRxData);
+		wimod.RegisterRxAckIndicationClient(onRxAck);
+		wimod.RegisterNoDataIndicationClient(onNoData);
+    }
+}
+
+
+/*****************************************************************************
+ * Arduino loop function
+ ****************************************************************************/
+
+void loop()
+{
+
+    // check of activation procedure has finished
+    if (RIB.ModemState == ModemState_Connected) {
+
+        // send out a hello world every 30 sec ( =6* 50*100 ms)
+    	// (due to duty cycle restrictions 30 sec is recommended
+        if ((loopCnt > 1) && (loopCnt % (6*50)) == 0) {
+        	// send out a simple HelloWorld messsage
+            debugMsg(F("Sending a 'Hello World!' message...\n"));
+
+            // prepare TX data structure
+            txData.Port = 0x01;
+            txData.Length = strlen_P(PSTR("Hello World!"));
+            strcpy_P((char*) txData.Payload, PSTR("Hello World!"));
+
+            // try to send a message
+            if (false == wimod.SendCData(&txData)) {
+                // an error occurred
+
+                 // check if we have got a duty cycle problem
+                 if (LORAWAN_STATUS_CHANNEL_BLOCKED == wimod.GetLastResponseStatus()) {
+                     // yes; it is a duty cycle violation
+                     // -> try again later
+                     debugMsg(F("TX failed: Blocked due to DutyCycle restriction...\n"));
+                 }
+                 if (LORAWAN_STATUS_DEVICE_BUSY == wimod.GetLastResponseStatus()) {
+                     debugMsg(F("TX failed: Device is BUSY due to ongoing operation...\n"));
+                 }
+            }
+        }
+    }
+
+    // check for any pending data of the WiMOD
+    wimod.Process();
+
+    delay(100);
+    loopCnt++;
+}

@@ -1,0 +1,4 @@
+<map id="WiMODLRBASE_PLUS::SetAckData" name="WiMODLRBASE_PLUS::SetAckData">
+<area shape="rect" id="node2" href="$class_wi_m_o_d___s_a_p___radio_link.html#adda462b4bfe4843a9d5256c5b3da240a" title="Sets additional user payload for the next ack frame to send. " alt="" coords="331,5,499,47"/>
+<area shape="rect" id="node3" href="$class_wi_m_o_d_l_r_b_a_s_e___p_l_u_s.html#af8946f081fcbad452319258b91f5584d" title="WiMODLRBASE_PLUS::copyResult\lInfos" alt="" coords="296,71,535,112"/>
+</map>

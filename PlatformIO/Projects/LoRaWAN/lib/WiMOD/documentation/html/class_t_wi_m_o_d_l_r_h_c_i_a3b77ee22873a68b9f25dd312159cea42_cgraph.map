@@ -1,0 +1,8 @@
+<map id="TWiMODLRHCI::SendHCIMessage" name="TWiMODLRHCI::SendHCIMessage">
+<area shape="rect" id="node2" href="$class_t_wi_m_o_d_l_r_h_c_i.html#a2ce799685f27d0eab46939b7ca26d9f5" title=": Send a sequence of dummy chars to give the WiMOD some time to wake up " alt="" coords="287,29,552,56"/>
+<area shape="rect" id="node3" href="$class_t_wi_m_o_d_l_r_h_c_i.html#aab4540035bc62d2934b73d45add9b6ec" title="TWiMODLRHCI::PostMessage" alt="" coords="316,80,523,107"/>
+<area shape="rect" id="node6" href="$class_t_wi_m_o_d_l_r_h_c_i.html#a9efc7f81045db2ac435af9fc6a5f0efc" title="TWiMODLRHCI::WaitForResponse" alt="" coords="304,131,535,157"/>
+<area shape="rect" id="node4" href="$_c_r_c16_8cpp.html#a93a1b56a0fda275037fcbd50937e3cde" title="calculate CRC16 " alt="" coords="649,29,749,56"/>
+<area shape="rect" id="node5" href="$class_t_wi_m_o_d_l_r_h_c_i.html#a14971f0637db3c564e3bd611e3a5fd20" title="TWiMODLRHCI::SendPacket" alt="" coords="600,80,797,107"/>
+<area shape="rect" id="node7" href="$class_t_wi_m_o_d_l_r_h_c_i.html#aaaf7afaca1ddfed5d53b1dcf09941be6" title="Handle the receiver path; process all incomming bytes from the WiMOD. " alt="" coords="611,131,786,157"/>
+</map>

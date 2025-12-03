@@ -1,0 +1,5 @@
+<map id="WiMODGlobalLink24::SendCData" name="WiMODGlobalLink24::SendCData">
+<area shape="rect" id="node2" href="$class_wi_m_o_d_lo_ra_w_a_n.html#aa64d59be8a875b3d0ec2317f472d9e12" title="Tries to send transmit C&#45;Data to network server via RF link. " alt="" coords="205,46,413,73"/>
+<area shape="rect" id="node3" href="$class_wi_m_o_d___s_a_p___lo_ra_w_a_n.html#a45d6e3495c0abc20ef196fc7e97b7354" title="Tries to send transmit C&#45;Data to network server via RF link. " alt="" coords="484,5,665,47"/>
+<area shape="rect" id="node4" href="$class_wi_m_o_d_lo_ra_w_a_n.html#a6be2f35da3aaf8cf76c7f84be92f6775" title="WiMODLoRaWAN::copyLoRaWan\lResultInfos" alt="" coords="461,71,688,112"/>
+</map>

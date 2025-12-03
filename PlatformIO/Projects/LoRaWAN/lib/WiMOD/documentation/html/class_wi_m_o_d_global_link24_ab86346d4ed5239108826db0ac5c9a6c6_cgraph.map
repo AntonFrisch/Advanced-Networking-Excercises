@@ -1,0 +1,5 @@
+<map id="WiMODGlobalLink24::Ping" name="WiMODGlobalLink24::Ping">
+<area shape="rect" id="node2" href="$class_wi_m_o_d_lo_ra_w_a_n.html#a3a4a47888fe4d79ba72ab00d7cb3a226" title="Ping Cmd &#45; Checks the serial connection to the WiMOD module. " alt="" coords="232,35,399,61"/>
+<area shape="rect" id="node3" href="$class_wi_m_o_d___s_a_p___dev_mgmt.html#abebc0cd8ec69cd33681be2f6da210af9" title="Ping Cmd &#45; Checks if the serial connection of to the WiMOD module is OK. " alt="" coords="459,5,660,32"/>
+<area shape="rect" id="node4" href="$class_wi_m_o_d_lo_ra_w_a_n.html#a3edc7709cbd11da36f84c1f75fd28743" title="WiMODLoRaWAN::copyDevMgmt\lResultInfos" alt="" coords="447,57,672,98"/>
+</map>

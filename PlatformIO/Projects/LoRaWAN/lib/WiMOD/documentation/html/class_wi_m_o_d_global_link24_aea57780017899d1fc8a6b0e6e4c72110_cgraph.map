@@ -1,0 +1,4 @@
+<map id="WiMODGlobalLink24::RegisterNoDataIndicationClient" name="WiMODGlobalLink24::RegisterNoDataIndicationClient">
+<area shape="rect" id="node2" href="$class_wi_m_o_d_lo_ra_w_a_n.html#aef92aaf384b5f62bc185a6b403f5bd2c" title="Register a callback function for the event &quot;TX Join Indication&quot;. " alt="" coords="260,5,467,47"/>
+<area shape="rect" id="node3" href="$class_wi_m_o_d___s_a_p___lo_ra_w_a_n.html#af0cdfa629bb197e07b1bdaf66a2efc0c" title="Register a callback function for the event &quot;TX Join Indication&quot;. " alt="" coords="515,5,721,47"/>
+</map>

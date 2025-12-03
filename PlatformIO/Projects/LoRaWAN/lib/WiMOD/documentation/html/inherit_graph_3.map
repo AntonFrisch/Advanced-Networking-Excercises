@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$class_t_com_slip_client.html" title="Class definition for enabling OO inheritance. " alt="" coords="5,56,120,83"/>
+<area shape="rect" id="node2" href="$class_t_wi_m_o_d_l_r_h_c_i.html" title="Internal helper class for processing SLIP frames. " alt="" coords="168,56,287,83"/>
+<area shape="rect" id="node3" href="$class_wi_m_o_d_lo_ra_w_a_n.html" title="Main class representing the interface to the WiMOD running the firmware LoRaWAN EndNode Modem..." alt="" coords="351,5,483,32"/>
+<area shape="rect" id="node4" href="$class_wi_m_o_d_l_r_b_a_s_e.html" title="Main class representing the interface to the WiMOD running the firmware WiMODLR&#45;BASE. " alt="" coords="355,56,478,83"/>
+<area shape="rect" id="node5" href="$class_wi_m_o_d_l_r_b_a_s_e___p_l_u_s.html" title="Main class representing the interface to the WiMOD running the firmware WiMODLR&#45;BASE_PLUS. " alt="" coords="335,107,499,133"/>
+</map>

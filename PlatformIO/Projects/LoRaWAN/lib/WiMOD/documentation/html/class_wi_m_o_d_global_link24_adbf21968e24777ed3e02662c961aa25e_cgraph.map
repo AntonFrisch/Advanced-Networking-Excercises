@@ -1,0 +1,5 @@
+<map id="WiMODGlobalLink24::begin" name="WiMODGlobalLink24::begin">
+<area shape="rect" id="node2" href="$class_wi_m_o_d_lo_ra_w_a_n.html#a6474ca149acf759128839b87ddd370dd" title="This function must be called once before any other service can be used. " alt="" coords="205,35,376,61"/>
+<area shape="rect" id="node3" href="$class_t_wi_m_o_d_l_r_h_c_i.html#ae3f42344e92152559094d33811454037" title="Init function of the generic HCI message handler. " alt="" coords="436,5,593,32"/>
+<area shape="rect" id="node4" href="$class_wi_m_o_d___s_a_p___lo_ra_w_a_n.html#a99e8f38a859c462d970fbeadf5472262" title="Setup regional settings for the LoRaWAN Firmware of the WiMOD module. " alt="" coords="424,57,605,98"/>
+</map>

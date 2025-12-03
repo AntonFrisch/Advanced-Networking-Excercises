@@ -1,0 +1,5 @@
+<map id="WiMODGlobalLink24::GetRtc" name="WiMODGlobalLink24::GetRtc">
+<area shape="rect" id="node2" href="$class_wi_m_o_d_lo_ra_w_a_n.html#a94aef1bfea7758238f1165856ce1e75c" title="Gets the current RTC data info from WiMOD module. " alt="" coords="205,46,388,73"/>
+<area shape="rect" id="node3" href="$class_wi_m_o_d___s_a_p___dev_mgmt.html#ae7b6f9ad9ce766f87eaf00dd924e4dd0" title="GetRtc Cmd &#45; Get the current RTC time/date from WiMOD. " alt="" coords="461,5,636,47"/>
+<area shape="rect" id="node4" href="$class_wi_m_o_d_lo_ra_w_a_n.html#a3edc7709cbd11da36f84c1f75fd28743" title="WiMODLoRaWAN::copyDevMgmt\lResultInfos" alt="" coords="436,71,661,112"/>
+</map>

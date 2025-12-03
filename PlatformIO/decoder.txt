@@ -1,0 +1,22 @@
+function Decoder (bytes, port)
+{
+	var decoded = {};
+	if (port === 2)
+	{
+		decoded.latitude = ((bytes[0]*256 + bytes[1])*256 + bytes[2])*256 + bytes[3];
+		decoded.latitude /= 10000000;
+		decoded.latitude -= 90;
+
+		decoded.longitude = ((bytes[4]*256 + bytes[5])*256 + bytes[6])*256 + bytes[7];
+		decoded.longitude /= 10000000;
+		decoded.longitude -= 180;
+		decoded.altitude = bytes[8]*256 + bytes[9];
+		decoded.hdop = bytes[10];
+		decoded.hdop /= 10;
+	}
+	else
+	{
+		decoded.myVal = String.fromCharCode.apply(null, bytes);
+	}
+	return decoded;
+}
