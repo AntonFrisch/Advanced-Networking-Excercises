@@ -217,6 +217,14 @@ void setup()
         debugMsg(F("\n"));
       }
   }
+
+      if (wimod.GetDeviceEUI(devEUI)) {
+    	debugMsg(F("\r\n"));
+    	debugMsg(F("LoRaWAN Info:\r\n"));
+		debugMsg(F("-------------\r\n"));
+    	debugMsg(F("DeviceEUI:       "));
+    	printPayload(devEUI, 0x08);
+    }
 }
 
 void loop()
