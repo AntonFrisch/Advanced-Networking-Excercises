@@ -3,9 +3,6 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include<AsyncTCP.h>
-#include<AsyncMqttClient.h>
-#include <Adafruit_BME280.h>
-#include <HardwareSerial.h>
 #include "TinyGPS++.h"
 
 //definitions
@@ -13,8 +10,6 @@
 #define WIFI_PASSWORD "WBNuyawB2a"
 #define ADNGROUP "adn-group31"
 #define BULP_IP "192.168.0.55"
-#define MQTT_HOST IPAddress(192, 168, 0, 1)
-#define MQTT_PORT 1883
 
 HardwareSerial gpsSerial(1);
 TinyGPSPlus gps;
@@ -72,7 +67,7 @@ while(gpsSerial.available()>0){
   //Printing
   Serial.println(F("----- GPS Info -----"));
   Serial.print(F("Latitude:  "));
-  Serial.println(latitude, 6);     // 6 Nachkommastellen
+  Serial.println(latitude, 6);
   Serial.print(F("Longitude: "));
   Serial.println(longitude, 6);
   Serial.print(F("Altitude:  "));
@@ -91,6 +86,7 @@ while(gpsSerial.available()>0){
   Serial.print(F("Processed characters:"));
   Serial.println(processed);
   Serial.println();
+  delay (10000);
 }
 
 void slowBlink () {
