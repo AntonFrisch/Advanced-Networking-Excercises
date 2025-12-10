@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include "TinyGPS++.h"
 
 //partly taken from IMST arduino library example
 
@@ -14,14 +15,18 @@ HardwareSerial loraSerial(2);
 #include <WiMODLoRaWAN.h> // make sure to use only the WiMODLoRaWAN.h, the WiMODLR_BASE.h must not be used for LoRaWAN firmware.
 WiMODLoRaWAN wimod(WIMOD_IF);
 
-const unsigned char APPEUI[] = { 0xAB, 0xCD, 0xEF, 0x12, 0x34, 0x45, 0x67, 0x89 };
-const unsigned char APPKEY[] = { 0xAB, 0xCD, 0xEF, 0x12, 0x34, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF, 0x12, 0x34, 0x45, 0x67, 0x89 };
+const unsigned char APPEUI[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+const unsigned char APPKEY[] = { 0xFB, 0xBA, 0xA6, 0x62, 0x86, 0x97, 0x20, 0x34, 0x0C, 0xD3, 0x34, 0xB0, 0xEF, 0x52, 0x3E, 0x7C };
 
 //LoRa app
 boolean sendLora;
 unsigned long lastSent = 0;
 #define loraBytesSize 11
 byte loraBytes[loraBytesSize];
+
+//gps
+HardwareSerial gpsSerial(1);
+TinyGPSPlus gps;
 
 // Typedefs
 typedef enum TModemState {
@@ -172,9 +177,22 @@ void onRxData(TWiMODLR_HCIMessage& rxMsg) {
   }
 }
 
+void printPayload(const uint8_t* buf, uint8_t size) {
+  for (int i = 0; i < size; i++) {
+	if ((uint8_t) buf[i] < 0x10) {
+		PC_IF.print(F("0"));
+	}
+	PC_IF.print((uint8_t) buf[i], HEX);
+	PC_IF.print(F(" "));
+  }
+  PC_IF.print(F("\n"));
+}
+
 
 void setup()
 {
+  //gps
+    gpsSerial.begin(9600, SERIAL_8N1, 16, 17);
   //debug
   pinMode(BUILTIN_LED, OUTPUT);
   PC_IF.begin(115200);
@@ -217,35 +235,72 @@ void setup()
         debugMsg(F("\n"));
       }
   }
-
+	    uint8_t devEUI[8];
       if (wimod.GetDeviceEUI(devEUI)) {
     	debugMsg(F("\r\n"));
     	debugMsg(F("LoRaWAN Info:\r\n"));
-		debugMsg(F("-------------\r\n"));
+		  debugMsg(F("-------------\r\n"));
     	debugMsg(F("DeviceEUI:       "));
     	printPayload(devEUI, 0x08);
     }
 }
 
-void loop()
-{
+void loop() {
+  float gps_lat = gps.location.lat();
+  float gps_alt = gps.altitude.meters();
+  float gps_lng = gps.location.lng();
+  uint16_t gps_hdop = gps.hdop.value();
+
   sendLora = true;
-  if(millis() - lastSent < 15000) sendLora = false; //send every 15 sec
+  if(millis() - lastSent < 15000 || gps.location.age() >= 1000 || gps_lat == 0.00){
+    Serial.println("Setting Default Gps values");
+    gps_lat = 49.573796;
+    gps_alt = 320;
+    gps_lng = 11.026791;
+    gps_hdop = 200;
+    //sendLora = false; //send every 15 sec
+  }
   if(RIB.ModemState != ModemState_Connected) sendLora = false; // check of OTAA procedure has finished
   if(sendLora) digitalWrite(BUILTIN_LED, HIGH); else digitalWrite(BUILTIN_LED, LOW);
 
   if(sendLora) {
     debugMsg(F("Sending...\n"));
 
-    // prepare TX data structure for string
+    //create gps lorabytes array
+    // double lat /long -itude , 4 Byte , in degree (+ -90 Lat ; + -180 Long )
+    uint32_t latitudeBinary = (uint32_t)((gps_lat + 90) * 10000000);
+    loraBytes[0] = (latitudeBinary >> 24) & 0xFF; // shift and take out 1 byte
+    loraBytes[1] = (latitudeBinary >> 16) & 0xFF;
+    loraBytes[2] = (latitudeBinary >> 8) & 0xFF;
+    loraBytes[3] = latitudeBinary & 0xFF ;
+    uint32_t longitudeBinary = (uint32_t)((gps_lng+180) * 10000000);
+    loraBytes[4] = (longitudeBinary >> 24) & 0xFF ;
+    loraBytes[5] = (longitudeBinary >> 16) & 0xFF ;
+    loraBytes [6] = (longitudeBinary >> 8) & 0XFF ;
+    loraBytes[7] = longitudeBinary & 0XFF ;
+
+    // double altitude , 4 Byte , in meters
+    uint16_t altitudeBinary =
+    (gps.altitude.meters() < 0) ? 0 : (uint16_t) gps_alt;
+    loraBytes[8] = (altitudeBinary >> 8) & 0xFF ;
+    loraBytes [9] = altitudeBinary & 0XFF ;
+
+    // double hdop , 4 Byte , quality of position data
+    uint16_t hdopBinary = (uint16_t)gps_hdop/10;
+    // HDOP in 1/10 m, decode with /10 to m (0 m to 25.5 m)
+    loraBytes[10] = hdopBinary & 0xFF ;
+
+    /* prepare TX data structure for string
     txData.Port = 0x01;
     txData.Length = loraBytesSize;
-	strcpy_P((char*) txData.Payload, PSTR("Hello World"));
+	  strcpy_P((char*) txData.Payload, PSTR("Hello World"));
+    */
 
-	// prepare TX data structure for bytes
-    //txData.Port = 0x02;
-    //txData.Length = loraBytesSize;
-    //memcpy(txData.Payload, loraBytes, txData.Length);
+
+	  // prepare TX data structure for bytes
+    txData.Port = 0x02;
+    txData.Length = loraBytesSize;
+    memcpy(txData.Payload, loraBytes, txData.Length);
   
     // try to send a message
     if (false == wimod.SendUData(&txData)) { // an error occurred
